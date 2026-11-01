@@ -33,3 +33,13 @@ O guia pode servir como referência, mas não recomendo executar o conjunto sem 
 Uma revisão de código não garante a segurança de versões futuras, ferramentas instaladas ou serviços externos. Os critérios de muitos achievements são documentados pela comunidade; o GitHub decide a concessão e a atualização do perfil.
 
 Este documento foi preparado com assistência de IA em um laboratório de contas do mesmo mantenedor, conforme a nota de transparência no README.
+
+## Validação offline do parsing
+
+Em 1 de novembro de 2026, reproduzi os pipelines de extração do snapshot acima com fixtures locais, sem token nem rede.
+
+- Número de issue: a entrada JSON formatada com `"number": 7` produziu uma string vazia, em vez de `7`. A expressão exige dígitos imediatamente após os dois-pontos.
+- SHA do PR: uma fixture compacta com `head.sha` igual a 40 dígitos `1` e `base.sha` igual a 40 dígitos `2` produziu o SHA da base. O pipeline seleciona a última ocorrência de `sha`, não especificamente `head.sha`.
+- Os dois resultados foram comparados com valores esperados por assertions locais. Nenhum dos scripts completos foi executado.
+
+Esses exemplos comprovam as falhas de parsing descritas na tabela e justificam o uso de um parser JSON com seleção explícita dos campos.
